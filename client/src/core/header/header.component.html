@@ -1,0 +1,26 @@
+<header class="header">
+  <div class="header-left"></div>
+
+  <div class="header-center">
+    <button mat-button routerLink="/events">Events</button>
+    <button mat-button>Venues</button>
+  </div>
+
+  <div class="header-right">
+    <button mat-icon-button aria-label="Cart">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+    <ng-container *ngIf="isLoggedIn(); else guest">
+      <button mat-icon-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </ng-container>
+
+    <ng-template #guest>
+      <button mat-icon-button (click)="openProfileDialog()">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+</header>
+

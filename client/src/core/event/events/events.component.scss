@@ -1,0 +1,56 @@
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.event-card {
+  display: flex;
+}
+
+mat-card {
+  width: 100%;
+}
+
+.no-image {
+  background: #e0e0e0;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.clickable-card {
+  border: 2px solid #52796F;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-color: #2F3E46;
+  }
+}
+
+.pagination-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+
+  button {
+    min-width: 36px;
+  }
+}
+
+
+

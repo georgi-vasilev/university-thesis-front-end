@@ -1,0 +1,35 @@
+<ng-container *ngIf="result() as result; else loading">
+  <div class="event-grid">
+    <div class="event-card" *ngFor="let event of result.items">
+      <mat-card class="clickable-card" (click)="onEventClick(event)">
+        <img mat-card-image *ngIf="event.posterUrl; else noImage" [src]="event.posterUrl" alt="{{ event.name }}" />
+        <ng-template #noImage>
+          <div class="no-image">No Image Available</div>
+        </ng-template>
+        <mat-card-content>
+          <h3>{{ event.name }}</h3>
+          <p>{{ event.description | truncate:50 }}</p>
+          <p><strong>{{ event.date | formatDate }}</strong> | {{ event.time | formatTimeRange }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="pagination-footer">
+    <button
+      mat-button
+      *ngFor="let page of pageNumbers"
+      (click)="setPage(page)"
+      [color]="currentPage() === page ? 'primary' : undefined"
+    >
+      {{ page }}
+    </button>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="spinner-container">
+    <mat-progress-spinner diameter="50" mode="indeterminate"></mat-progress-spinner>
+  </div>
+</ng-template>
+
