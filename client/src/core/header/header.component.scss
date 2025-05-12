@@ -1,0 +1,46 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #CAD2C5; // Ash gray
+}
+
+.header-left,
+.header-center,
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  button {
+    color: #2F3E46;
+  }
+}
+
+
+.header-center {
+  justify-content: center;
+  gap: 20px;
+}
+
+.header-right {
+  justify-content: flex-end;
+  gap: 10px;
+
+  .auth-button {
+    border: 2px solid #52796F;
+    border-radius: 4px;
+    padding: 6px 12px;
+    color: #2F3E46;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+    &:hover {
+      background-color: #2F3E46;
+      color: #FFFFFF;
+      border-color: #2F3E46;
+    }
+  }
+}
+
