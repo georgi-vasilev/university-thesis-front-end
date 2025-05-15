@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../core/header/header.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',

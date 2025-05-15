@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetEventsOutputModel } from './events.model';
 import { PaginatedResult } from '../../shared/models/paginated-result.model';
 import { EventDetailsOutputModel } from './event-details.model';
+import { GetEventsOutputModel } from './events.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,11 +41,11 @@ export class EventsService {
       .set('PageSize', pageSize)
       .set('Ordering', ordering);
 
-   return this.http.get<PaginatedResult<GetEventsOutputModel>>(`${this.api}/events/host`, { params });
+    return this.http.get<PaginatedResult<GetEventsOutputModel>>(`${this.api}/events/host`, { params });
   }
 
   cancelEvent(id: string): Observable<void> {
-    return this.http.post<void>(`${this.api}/events/cancel/`, { id: id});
+    return this.http.post<void>(`${this.api}/events/cancel/`, { id: id });
   }
 
 }

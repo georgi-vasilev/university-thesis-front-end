@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { inject } from '@angular/core';
-import { ProfileSelectorDialogComponent } from '../auth/profile-selector-dialog/profile-selector-dialog.component';
-import { AuthStore } from '../auth/+store/auth.store';
-import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { Router, RouterLink } from '@angular/router';
+import { AuthStore } from '../auth/+store/auth.store';
+import { ProfileSelectorDialogComponent } from '../auth/profile-selector-dialog/profile-selector-dialog.component';
 
 @Component({
   standalone: true,

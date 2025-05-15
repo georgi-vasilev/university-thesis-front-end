@@ -1,17 +1,16 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of } from 'rxjs';
+import { Component, effect, inject, signal } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
-import { MatButton } from '@angular/material/button';
-import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
-import { FormatDatePipe } from '../../../shared/pipes/formate-date.pipe';
-import { FormatTimeRangePipe } from '../../../shared/pipes/format-time-range.pipe';
-import { EventsService } from '../../../features/events/events.service';
+import { catchError, of } from 'rxjs';
 import { GetEventsOutputModel } from '../../../features/events/events.model';
+import { EventsService } from '../../../features/events/events.service';
 import { PaginatedResult } from '../../../shared/models/paginated-result.model';
+import { FormatTimeRangePipe } from '../../../shared/pipes/format-time-range.pipe';
+import { FormatDatePipe } from '../../../shared/pipes/formate-date.pipe';
+import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 
 @Component({
   standalone: true,
