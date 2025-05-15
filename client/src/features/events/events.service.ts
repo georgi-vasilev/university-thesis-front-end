@@ -31,5 +31,22 @@ export class EventsService {
     return this.http.get<EventDetailsOutputModel>(`${this.api}/events/details/${id}`);
   }
 
+  getEventsByHostId(
+    pageIndex: number = 1,
+    pageSize: number = 2,
+    ordering: number = 0
+  ): Observable<PaginatedResult<GetEventsOutputModel>> {
+    const params = new HttpParams()
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize)
+      .set('Ordering', ordering);
+
+   return this.http.get<PaginatedResult<GetEventsOutputModel>>(`${this.api}/events/host`, { params });
+  }
+
+  cancelEvent(id: string): Observable<void> {
+    return this.http.post<void>(`${this.api}/events/cancel/`, { id: id});
+  }
+
 }
 

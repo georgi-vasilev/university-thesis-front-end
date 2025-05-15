@@ -9,6 +9,9 @@ export class AuthStore {
     return token ? this.decodeToken(token) : null;
   });
 
+  readonly isHost = computed(() => !!this.user()?.hostId);
+  readonly isBuyer = computed(() => !!this.user()?.buyerId);
+
   readonly isTokenExpired = computed(() => {
     const user = this.user();
     if (!user?.exp) return true;
