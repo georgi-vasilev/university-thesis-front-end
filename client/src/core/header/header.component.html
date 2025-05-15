@@ -31,6 +31,12 @@
           <mat-icon>event</mat-icon>
           <span>My Events</span>
         </button>
+
+         <button *ngIf="isHost()" mat-menu-item (click)="navigateTo('host/events/new')">
+          <mat-icon>calendar_add_on</mat-icon>
+          <span>Add New Event</span>
+        </button>
+
         <button *ngIf="isHost()" mat-menu-item (click)="navigateTo('stats')">
           <mat-icon>bar_chart</mat-icon>
           <span>Statistics</span>
