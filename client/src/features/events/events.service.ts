@@ -1,9 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginatedResult } from '../../shared/models/paginated-result.model';
 import { EventDetailsOutputModel } from './event-details.model';
 import { GetEventsOutputModel } from './events.model';
+import { UpdateEventCommandModel } from './update-event-command.model';
+import { CreateEventModel } from './create-event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +48,17 @@ export class EventsService {
 
   cancelEvent(id: string): Observable<void> {
     return this.http.post<void>(`${this.api}/events/cancel/`, { id: id });
+  }
+
+  createEvent(command: CreateEventModel): Observable<object> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(`${this.api}/events/create`, command, { headers })
+  }
+
+  updateEvent(updatedEvent: UpdateEventCommandModel) {
+    const id = updatedEvent.eventId;
+    return this.http.put<UpdateEventCommandModel>(`${this.api}/events/${id}`, { updatedEvent });
   }
 
 }

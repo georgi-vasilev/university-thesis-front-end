@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Edit Event</h2>
+<form [formGroup]="form" (ngSubmit)="save()" mat-dialog-content>
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Start Time</mat-label>
+    <input matInput type="time" formControlName="startTime" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>End Time</mat-label>
+    <input matInput type="time" formControlName="endTime" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full" *ngIf="venues$ | async as venues">
+    <mat-label>Venue</mat-label>
+    <mat-select formControlName="venueId">
+      <mat-option *ngFor="let venue of venues" [value]="venue.id">
+        {{ venue.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div mat-dialog-actions class="flex justify-end mt-4">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button mat-flat-button color="primary" type="submit">Save</button>
+  </div>
+</form>
+
