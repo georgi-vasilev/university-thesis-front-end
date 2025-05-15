@@ -7,13 +7,35 @@
   </div>
 
   <div class="header-right">
-    <button mat-icon-button aria-label="Cart">
+    <button *ngIf="isBuyer()" mat-icon-button aria-label="Cart">
       <mat-icon>shopping_cart</mat-icon>
     </button>
     <ng-container *ngIf="isLoggedIn(); else guest">
-      <button mat-icon-button (click)="logout()">
+
+      <!-- Logout Button -->
+      <button mat-icon-button (click)="logout()" matTooltip="Logout">
         <mat-icon>logout</mat-icon>
       </button>
+
+      <!-- Profile Dropdown -->
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu" matTooltip="Menu" aria-label="Profile menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item (click)="navigateTo('profile')">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button *ngIf="isHost()" mat-menu-item (click)="navigateTo('host/events')">
+          <mat-icon>event</mat-icon>
+          <span>My Events</span>
+        </button>
+        <button *ngIf="isHost()" mat-menu-item (click)="navigateTo('stats')">
+          <mat-icon>bar_chart</mat-icon>
+          <span>Statistics</span>
+        </button>
+      </mat-menu>
     </ng-container>
 
     <ng-template #guest>
@@ -23,4 +45,3 @@
     </ng-template>
   </div>
 </header>
-

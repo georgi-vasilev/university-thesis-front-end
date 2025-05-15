@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
@@ -8,6 +8,9 @@ export class AuthStore {
     const token = this.token();
     return token ? this.decodeToken(token) : null;
   });
+
+  readonly isHost = computed(() => !!this.user()?.hostId);
+  readonly isBuyer = computed(() => !!this.user()?.buyerId);
 
   readonly isTokenExpired = computed(() => {
     const user = this.user();
