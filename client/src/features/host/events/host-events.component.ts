@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { GetEventsOutputModel } from '../../events/events.model';
 import { PaginatedResult } from '../../../shared/models/paginated-result.model';
-import { EditEventModalComponent } from '../../../core/event/edit-event-modal/edit-event-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EditEventModalComponent } from '../../events/edit-event-modal/edit-event-modal.component';
 
 @Component({
   standalone: true,

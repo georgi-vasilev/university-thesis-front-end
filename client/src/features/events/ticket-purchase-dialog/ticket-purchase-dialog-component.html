@@ -1,0 +1,127 @@
+ <div class="purchase-dialog">
+      <h2 mat-dialog-title>
+        <mat-icon>confirmation_number</mat-icon>
+        Purchase Tickets
+      </h2>
+
+      <mat-dialog-content class="dialog-content">
+        <mat-stepper #stepper [linear]="true" class="purchase-stepper">
+
+          <mat-step [stepControl]="ticketForm" label="Select Tickets">
+            <div class="event-summary">
+              <h3>{{ data.event.name }}</h3>
+              <p>{{ data.event.date | date:'fullDate' }}</p>
+              <p>{{ data.event.venue }}</p>
+            </div>
+
+            <form [formGroup]="ticketForm" class="ticket-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Number of Tickets</mat-label>
+                <mat-select formControlName="ticketQuantity">
+                  <mat-option
+                    *ngFor="let num of ticketQuantityOptions"
+                    [value]="num">
+                    {{ num }} {{ num === 1 ? 'Ticket' : 'Tickets' }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Ticket Type</mat-label>
+                <mat-select formControlName="ticketType">
+                  <mat-option value="General">
+                    General - ${{ data.event.ticketPrice }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="price-summary">
+                <div class="price-row">
+                  <span>{{ ticketForm.get('ticketQuantity')?.value || 1 }} × ${{ data.event.ticketPrice }}</span>
+                  <span>${{ totalAmount }}</span>
+                </div>
+                <div class="total-row">
+                  <span><strong>Total</strong></span>
+                  <span><strong>${{ totalAmount }}</strong></span>
+                </div>
+              </div>
+            </form>
+
+         <div class="step-actions">
+           <button mat-raised-button color="primary"
+             (click)="proceedToPayment()"
+             [disabled]="!ticketForm.valid || isProcessing()">
+             Continue to Payment
+           </button>
+         </div>
+       </mat-step>
+
+          <mat-step label="Payment">
+            <div class="payment-section">
+              <div class="order-summary">
+                <h4>Order Summary</h4>
+                <div class="summary-item">
+                  <span>{{ ticketForm.get('ticketQuantity')?.value }} × {{ ticketForm.get('ticketType')?.value }} tickets</span>
+                  <span>${{ totalAmount }}</span>
+                </div>
+                <div class="summary-total">
+                  <span><strong>Total: ${{ totalAmount }}</strong></span>
+                </div>
+              </div>
+
+           <div class="payment-form">
+             <div #paymentElement class="payment-element"
+               [style.display]="isProcessing() ? 'none' : 'block'"></div>
+           </div>
+
+              <div class="processing-message" *ngIf="isProcessing()">
+                <mat-spinner diameter="40"></mat-spinner>
+                <p>{{ processingMessage() }}</p>
+              </div>
+            </div>
+
+            <div class="step-actions">
+              <button mat-button matStepperPrevious [disabled]="isProcessing()">
+                Back
+              </button>
+              <button mat-raised-button color="primary"
+                      (click)="onPurchase()"
+                      [disabled]="isProcessing() || !paymentReady()">
+                <span *ngIf="!isProcessing()">Complete Purchase</span>
+                <span *ngIf="isProcessing()">Processing...</span>
+              </button>
+            </div>
+          </mat-step>
+
+          <mat-step label="Confirmation">
+            <div class="confirmation-section">
+              <div class="success-message" *ngIf="purchaseSuccess()">
+                <mat-icon class="success-icon">check_circle</mat-icon>
+                <h3>Purchase Successful!</h3>
+                <p>Your tickets have been purchased successfully.</p>
+                <p><strong>Order ID:</strong> {{ orderResult()?.orderId }}</p>
+              </div>
+
+              <div class="error-message" *ngIf="purchaseError()">
+                <mat-icon class="error-icon">error</mat-icon>
+                <h3>Purchase Failed</h3>
+                <p>{{ purchaseError() }}</p>
+              </div>
+            </div>
+
+            <div class="step-actions">
+              <button mat-raised-button color="primary"
+                      (click)="onClose()"
+                      *ngIf="purchaseSuccess()">
+                Close
+              </button>
+              <button mat-button matStepperPrevious
+                      *ngIf="purchaseError()">
+                Try Again
+              </button>
+            </div>
+          </mat-step>
+
+        </mat-stepper>
+      </mat-dialog-content>
+    </div>

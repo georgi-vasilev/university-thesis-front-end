@@ -4,8 +4,7 @@ import { EventsService } from '../../../features/events/events.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateEventModel } from '../../../features/events/create-event.model';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { VenueService } from '../../../features/venue/venues.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,7 +40,7 @@ export class EventFormComponent {
   private venuesService = inject(VenueService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
-  public venues$!:Observable<Venue[]>;
+  public venues$!: Observable<Venue[]>;
 
   form: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -51,7 +50,15 @@ export class EventFormComponent {
     endTime: ['', Validators.required],
     capacity: ['', [Validators.required, Validators.min(1)]],
     venueId: ['', Validators.required],
-    posterUrl: ['']
+    generalTicketPrice: ['', [Validators.required, Validators.min(1)]],
+    vipTicketPrice: [null, [Validators.min(1)]],
+    imageUrl: [
+      '',
+      [
+        Validators.maxLength(2048),
+        Validators.pattern(/^https?:\/\/.+/i)
+      ]
+    ]
   });
 
   ngOnInit(): void {
@@ -65,13 +72,18 @@ export class EventFormComponent {
     const payload: CreateEventModel = {
       name: value.name,
       description: value.description,
+      imageUrl: value.imageUrl,
       date: (value.date as Date).toISOString().split('T')[0],
       startTime: value.startTime,
       endTime: value.endTime,
       venueId: value.venueId,
-      capacity: value.capacity
+      capacity: value.capacity,
+      generalTicketPrice: value.generalTicketPrice,
+      vipTicketPrice: value.vipTicketPrice != null && value.vipTicketPrice !== ''
+        ? Number(value.vipTicketPrice)
+        : null,
     };
-    debugger;
+
     this.eventsService.createEvent(payload).subscribe({
       next: () => {
         this.snackBar.open('Event created!', 'Close', { duration: 3000 });

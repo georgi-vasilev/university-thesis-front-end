@@ -7,17 +7,12 @@
   </div>
 
   <div class="header-right">
-    <button *ngIf="isBuyer()" mat-icon-button aria-label="Cart">
-      <mat-icon>shopping_cart</mat-icon>
-    </button>
     <ng-container *ngIf="isLoggedIn(); else guest">
 
-      <!-- Logout Button -->
       <button mat-icon-button (click)="logout()" matTooltip="Logout">
         <mat-icon>logout</mat-icon>
       </button>
 
-      <!-- Profile Dropdown -->
       <button mat-icon-button [matMenuTriggerFor]="profileMenu" matTooltip="Menu" aria-label="Profile menu">
         <mat-icon>account_circle</mat-icon>
       </button>

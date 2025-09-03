@@ -1,0 +1,105 @@
+.event-details-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-hero-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #5b6ee5 0%, #764ba2 100%);
+  color: #fff;
+
+  .mat-mdc-card-content { padding: 32px; position: relative; z-index: 1; }
+}
+
+.event-hero-card::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(1200px 500px at 20% -10%, rgba(255,255,255,.18), transparent 60%),
+    linear-gradient(135deg, rgba(0,0,0,.25), rgba(0,0,0,.25));
+  pointer-events: none;
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.event-info {
+  flex: 1;
+}
+
+.event-title { text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+.event-description { color: rgba(255,255,255,.95); }
+
+.event-status-chips .mat-mdc-chip { margin-right: 8px; margin-bottom: 8px; }
+
+.event-actions .mat-stroked-button {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  border-color: rgba(255,255,255,.24);
+}
+.event-actions .mat-stroked-button:hover {
+  background: rgba(255,255,255,.18);
+}
+
+.purchase-btn {
+  height: 48px;
+  font-size: 1.05rem;
+  font-weight: 700;
+
+  background: #fff !important;
+  color: #111 !important;
+  border: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 6px 14px rgba(0,0,0,.15);
+  transition: box-shadow .2s ease, transform .12s ease;
+}
+.purchase-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.2);
+}
+
+.event-details-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(17,24,39,.08);
+
+  .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 16px; }
+  .detail-item { display: flex; align-items: flex-start; gap: 12px; }
+  .detail-icon { color: #6b7280; margin-top: 4px; }
+  .detail-content {
+    h4 { margin: 0 0 4px; font-weight: 700; color: #111827; }
+    p  { margin: 0; color: #374151; }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 16px;
+
+  mat-spinner {
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: #666;
+    font-size: 1.1rem;
+  }
+}
+
+
