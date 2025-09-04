@@ -7,6 +7,6 @@ export interface GetEventsOutputModel {
   date: string;
   time: TimeRange;
   status: string;
-  posterUrl: string | null;
+  imageUrl: string | null;
 }
 

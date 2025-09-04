@@ -2,13 +2,13 @@
 
 <mat-dialog-content *ngIf="step() === 'select'" class="select-layout">
   <div class="icon-options">
-    <div class="option" (click)="step.set('user')">
-      <mat-icon class="big-icon">sentiment_satisfied_alt</mat-icon>
-      <div class="label">I'm a user</div>
+    <div class="option" (click)="step.set('buyer')">
+      <mat-icon class="big-icon">person</mat-icon>
+      <div class="label">I'm a buyer</div>
     </div>
     <div class="option" (click)="step.set('host')">
-      <mat-icon class="big-icon">contact_mail</mat-icon>
-      <div class="label">Register as host</div>
+      <mat-icon class="big-icon">event</mat-icon>
+      <div class="label">I'm a host</div>
     </div>
   </div>
 
@@ -22,16 +22,75 @@
   <mat-progress-spinner diameter="30" mode="indeterminate"></mat-progress-spinner>
 </div>
 
-<div mat-dialog-content *ngIf="step() === 'user'">
-  <p>You selected <strong>User</strong>. [Insert user form here]</p>
-</div>
+<mat-dialog-content *ngIf="step() === 'buyer'">
+  <h3>Register as Buyer</h3>
+  <form [formGroup]="buyerForm" (ngSubmit)="submitBuyerForm()">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" />
+      <mat-error *ngIf="buyerForm.get('firstName')?.hasError('required')">
+        First name is required
+      </mat-error>
+      <mat-error *ngIf="buyerForm.get('firstName')?.hasError('minlength')">
+        First name must be at least 2 characters
+      </mat-error>
+      <mat-error *ngIf="buyerForm.get('firstName')?.hasError('maxlength')">
+        First name must be at most 50 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" />
+      <mat-error *ngIf="buyerForm.get('lastName')?.hasError('required')">
+        Last name is required
+      </mat-error>
+      <mat-error *ngIf="buyerForm.get('lastName')?.hasError('minlength')">
+        Last name must be at least 2 characters
+      </mat-error>
+      <mat-error *ngIf="buyerForm.get('lastName')?.hasError('maxlength')">
+        Last name must be at most 50 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" />
+      <mat-error *ngIf="buyerForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="buyerForm.get('email')?.hasError('email')">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password" />
+      <mat-error *ngIf="buyerForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="buyerForm.get('password')?.hasError('minlength')">
+        Password must be at least 6 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="step.set('select')">Back</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
+        Register as Buyer
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>
 
 <mat-dialog-content *ngIf="step() === 'host'">
-  <form [formGroup]="form" (ngSubmit)="submitHostForm()">
+  <h3>Register as Host</h3>
+  <form [formGroup]="hostForm" (ngSubmit)="submitHostForm()">
     <mat-form-field appearance="outline">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username" />
-      <mat-error *ngIf="form.get('username')?.hasError('required')">
+      <mat-error *ngIf="hostForm.get('username')?.hasError('required')">
         Username is required
       </mat-error>
     </mat-form-field>
@@ -39,13 +98,13 @@
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput formControlName="firstName" />
-      <mat-error *ngIf="form.get('firstName')?.hasError('required')">
+      <mat-error *ngIf="hostForm.get('firstName')?.hasError('required')">
         First name cannot be empty.
       </mat-error>
-      <mat-error *ngIf="form.get('firstName')?.hasError('minlength')">
+      <mat-error *ngIf="hostForm.get('firstName')?.hasError('minlength')">
         First name must be at least 3 characters.
       </mat-error>
-      <mat-error *ngIf="form.get('firstName')?.hasError('maxlength')">
+      <mat-error *ngIf="hostForm.get('firstName')?.hasError('maxlength')">
         First name must be at most 15 characters.
       </mat-error>
     </mat-form-field>
@@ -53,13 +112,13 @@
     <mat-form-field appearance="outline">
       <mat-label>Last Name</mat-label>
       <input matInput formControlName="lastName" />
-      <mat-error *ngIf="form.get('lastName')?.hasError('required')">
+      <mat-error *ngIf="hostForm.get('lastName')?.hasError('required')">
         Last name cannot be empty.
       </mat-error>
-      <mat-error *ngIf="form.get('lastName')?.hasError('minlength')">
+      <mat-error *ngIf="hostForm.get('lastName')?.hasError('minlength')">
         Last name must be at least 3 characters.
       </mat-error>
-      <mat-error *ngIf="form.get('lastName')?.hasError('maxlength')">
+      <mat-error *ngIf="hostForm.get('lastName')?.hasError('maxlength')">
         Last name must be at most 15 characters.
       </mat-error>
     </mat-form-field>
@@ -67,7 +126,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Phone Number</mat-label>
       <input matInput formControlName="phoneNumber" />
-      <mat-error *ngIf="form.get('phoneNumber')?.hasError('invalidPhone')">
+      <mat-error *ngIf="hostForm.get('phoneNumber')?.hasError('invalidPhone')">
         Phone number must be 10 digits starting with 0, or 12 characters starting with +.
       </mat-error>
     </mat-form-field>
@@ -75,13 +134,13 @@
     <mat-form-field appearance="outline">
       <mat-label>Instagram Handler</mat-label>
       <input matInput formControlName="instagramHandler" />
-      <mat-error *ngIf="form.get('instagramHandler')?.hasError('required')">
+      <mat-error *ngIf="hostForm.get('instagramHandler')?.hasError('required')">
         Instagram handler cannot be empty.
       </mat-error>
-      <mat-error *ngIf="form.get('instagramHandler')?.hasError('minlength')">
+      <mat-error *ngIf="hostForm.get('instagramHandler')?.hasError('minlength')">
         Instagram handler must be at least 3 characters.
       </mat-error>
-      <mat-error *ngIf="form.get('instagramHandler')?.hasError('maxlength')">
+      <mat-error *ngIf="hostForm.get('instagramHandler')?.hasError('maxlength')">
         Instagram handler must be at most 30 characters.
       </mat-error>
     </mat-form-field>
@@ -89,10 +148,10 @@
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" type="email" />
-      <mat-error *ngIf="form.get('email')?.hasError('required')">
+      <mat-error *ngIf="hostForm.get('email')?.hasError('required')">
         Email cannot be empty.
       </mat-error>
-      <mat-error *ngIf="form.get('email')?.hasError('email')">
+      <mat-error *ngIf="hostForm.get('email')?.hasError('email')">
         Email must be a valid email address.
       </mat-error>
     </mat-form-field>
@@ -100,18 +159,22 @@
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
       <input matInput formControlName="password" type="password" />
-      <mat-error *ngIf="form.get('password')?.hasError('required')">
+      <mat-error *ngIf="hostForm.get('password')?.hasError('required')">
         Password is required.
       </mat-error>
     </mat-form-field>
+
     <mat-dialog-actions align="end">
-      <button mat-button type="button" (click)="close()">Cancel</button>
-      <button mat-raised-button color="primary" type="submit">Register</button>
+      <button mat-button type="button" (click)="step.set('select')">Back</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
+        Register as Host
+      </button>
     </mat-dialog-actions>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-content *ngIf="step() === 'login'">
+  <h3>Log In</h3>
   <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
@@ -133,20 +196,22 @@
     </mat-form-field>
 
     <mat-dialog-actions align="end">
-      <button mat-button type="button" (click)="close()">Cancel</button>
+      <button mat-button type="button" (click)="step.set('select')">Back</button>
       <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
         Log In
       </button>
-
     </mat-dialog-actions>
   </form>
 </mat-dialog-content>
+
 <mat-error *ngIf="loginError()" class="centered-error">
   {{ loginError() }}
 </mat-error>
 
+<mat-error *ngIf="error()" class="centered-error">
+  {{ error() }}
+</mat-error>
 
 <div mat-dialog-actions align="end" *ngIf="step() === 'select'">
   <button mat-button (click)="close()">Cancel</button>
 </div>
-

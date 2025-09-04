@@ -2,7 +2,7 @@
   <div class="event-grid">
     <div class="event-card" *ngFor="let event of result.items">
       <mat-card class="clickable-card" (click)="onEventClick(event)">
-        <img mat-card-image *ngIf="event.posterUrl; else noImage" [src]="event.posterUrl" alt="{{ event.name }}" />
+        <img mat-card-image *ngIf="event.imageUrl; else noImage" [src]="event.imageUrl" alt="{{ event.name }}" />
         <ng-template #noImage>
           <div class="no-image">No Image Available</div>
         </ng-template>
