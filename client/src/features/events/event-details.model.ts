@@ -5,6 +5,7 @@ export interface EventDetailsOutputModel {
   name: string;
   description: string;
   venue: string;
+  hostId: string;
   hostInstagramHandler: string;
   date: string;
   time: TimeRange;

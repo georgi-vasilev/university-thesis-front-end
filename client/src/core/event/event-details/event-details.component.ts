@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
@@ -10,7 +10,7 @@ import { EventsService } from '../../../features/events/events.service';
 @Component({
   standalone: true,
   selector: 'app-event-details',
-  imports: [CommonModule, FormatDatePipe, FormatTimeRangePipe],
+  imports: [CommonModule, FormatDatePipe, FormatTimeRangePipe, RouterModule],
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.scss'
 })

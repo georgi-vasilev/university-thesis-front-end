@@ -3,6 +3,7 @@ import { EventDetailsComponent } from '../core/event/event-details/event-details
 import { EventsComponent } from '../core/event/events/events.component';
 import { HostEventsComponent } from '../features/host/events/host-events.component';
 import { EventFormComponent } from '../core/event/event-form/event-form.component';
+import { HostDetailsComponent } from '../features/host/host-details/host-details.component';
 
 export const routes: Routes = [
   { path: 'events', component: EventsComponent },
@@ -18,5 +19,8 @@ export const routes: Routes = [
     path: 'host/events/new',
     component: EventFormComponent,
   },
-
+  {
+    path: 'host/details/:id',
+    component: HostDetailsComponent
+  },
 ];
