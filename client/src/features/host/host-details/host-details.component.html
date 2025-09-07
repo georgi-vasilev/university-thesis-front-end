@@ -1,0 +1,15 @@
+<div *ngIf="hostInfo() as host">
+  <h2>{{ host.fullName }}</h2>
+  <p><strong>Email:</strong> {{ host.email }}</p>
+  <p><strong>Instagram:</strong> {{ host.instagramHandler }}</p>
+
+  <h3>Organized Events</h3>
+  <ul>
+    <li *ngFor="let event of host.organizedEvents">
+      <a [routerLink]="['/events', event.id]">
+        {{ event.name }} — {{ event.date | formatDate }} {{ event.time | formatTimeRange }}
+      </a>
+    </li>
+  </ul>
+</div>
+
