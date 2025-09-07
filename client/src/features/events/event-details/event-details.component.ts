@@ -1,5 +1,5 @@
 import { Component, inject, computed } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
@@ -22,6 +22,7 @@ import { TicketPurchaseDialogComponent } from '../ticket-purchase-dialog/ticket-
   selector: 'app-event-details',
   imports: [
     CommonModule,
+    RouterModule,
     FormatDatePipe,
     FormatTimeRangePipe,
     MatCardModule,

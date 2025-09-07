@@ -61,9 +61,12 @@
             <mat-icon class="detail-icon">person</mat-icon>
             <div class="detail-content">
               <h4>Host</h4>
-              <p>{{ ev.hostInstagramHandler }}</p>
+              <a [routerLink]="['/host/details', ev.hostId]">
+                {{ ev.hostInstagramHandler }}
+              </a>
             </div>
           </div>
+
 
           <div class="detail-item">
             <mat-icon class="detail-icon">calendar_today</mat-icon>
