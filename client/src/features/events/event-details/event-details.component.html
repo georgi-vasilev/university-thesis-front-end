@@ -1,0 +1,109 @@
+<div class="event-details-container">
+  <ng-container *ngIf="event() as ev; else loadingTemplate">
+    <mat-card class="event-hero-card">
+      <div class="event-header">
+        <div class="event-info">
+          <h1 class="event-title">{{ ev.name }}</h1>
+          <p class="event-description">{{ ev.description }}</p>
+          <mat-chip-set class="event-status-chips">
+            <mat-chip [color]="getStatusColor(ev.status)" selected>
+              <mat-icon matChipAvatar>event</mat-icon>
+              {{ ev.status }}
+            </mat-chip>
+            <mat-chip *ngIf="ev.availableTickets > 0" color="accent" selected>
+              <mat-icon matChipAvatar>confirmation_number</mat-icon>
+              {{ ev.availableTickets }} tickets left
+            </mat-chip>
+            <mat-chip *ngIf="ev.availableTickets === 0" color="warn" selected>
+              <mat-icon matChipAvatar>sold_out</mat-icon>
+              Sold Out
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+
+        <div class="event-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            class="purchase-btn"
+            [disabled]="!canPurchaseTickets()"
+            (click)="onPurchaseTickets()">
+            <mat-icon>shopping_cart</mat-icon>
+            <span *ngIf="canPurchaseTickets(); else soldOutText">Purchase Tickets</span>
+            <ng-template #soldOutText>Sold Out</ng-template>
+          </button>
+
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="onShare()">
+            <mat-icon>share</mat-icon>
+            Share
+          </button>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="event-details-card">
+      <mat-card-header>
+        <mat-card-title>Event Details</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="details-grid">
+          <div class="detail-item">
+            <mat-icon class="detail-icon">location_on</mat-icon>
+            <div class="detail-content">
+              <h4>Venue</h4>
+              <p>{{ ev.venue }}</p>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <mat-icon class="detail-icon">person</mat-icon>
+            <div class="detail-content">
+              <h4>Host</h4>
+              <p>{{ ev.hostInstagramHandler }}</p>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <mat-icon class="detail-icon">calendar_today</mat-icon>
+            <div class="detail-content">
+              <h4>Date</h4>
+              <p>{{ ev.date | formatDate }}</p>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <mat-icon class="detail-icon">access_time</mat-icon>
+            <div class="detail-content">
+              <h4>Time</h4>
+              <p>{{ ev.time | formatTimeRange }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="detail-item">
+          <mat-icon class="detail-icon">sell</mat-icon>
+          <div class="detail-content">
+            <h4>Price</h4>
+            <p>
+              General:
+              <strong>{{ ev.generalPrice | currency:'USD':'symbol':'1.0-2' }}</strong>
+              <ng-container *ngIf="ev.vipPrice != null">
+                &nbsp;•&nbsp; VIP:
+                <strong>{{ ev.vipPrice | currency:'USD':'symbol':'1.0-2' }}</strong>
+              </ng-container>
+            </p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </ng-container>
+
+  <ng-template #loadingTemplate>
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Loading event details...</p>
+    </div>
+  </ng-template>
+</div>

@@ -8,6 +8,7 @@ import { AuthService } from '../models/auth.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Host } from '../models/host.model';
+import { Buyer } from '../models/buyer.model';
 import { effect } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatError } from '@angular/material/form-field';
@@ -33,18 +34,21 @@ import { AuthStore } from '../+store/auth.store';
   ],
 })
 export class ProfileSelectorDialogComponent {
-  step = signal<'select' | 'user' | 'host' | 'login'>('select');
+  step = signal<'select' | 'buyer' | 'host' | 'login'>('select');
   dialogRef = inject(MatDialogRef<ProfileSelectorDialogComponent>);
   fb = inject(FormBuilder);
   authService = inject(AuthService);
-  authStore = inject(AuthStore)
+  authStore = inject(AuthStore);
 
   readonly loginError = signal<string | null>(null);
   readonly loading = signal(false);
-  readonly submitted = signal<Host | null>(null);
+  readonly submittedHost = signal<Host | null>(null);
+  readonly submittedBuyer = signal<Buyer | null>(null);
   readonly result = signal<string | null>(null);
   readonly error = signal<string | null>(null);
-  readonly form = this.fb.group({
+
+  // Host registration form
+  readonly hostForm = this.fb.group({
     username: ['', Validators.required],
     firstName: [
       '',
@@ -89,15 +93,47 @@ export class ProfileSelectorDialogComponent {
     password: ['', Validators.required]
   });
 
+  readonly buyerForm = this.fb.group({
+    firstName: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+      ],
+    ],
+    lastName: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+      ],
+    ],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email,
+      ],
+    ],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6)
+      ]
+    ]
+  });
+
   readonly loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
 
-
   constructor() {
     effect(() => {
-      const host = this.submitted();
+      const host = this.submittedHost();
       if (!host) return;
 
       this.authService.registerHost(host).subscribe({
@@ -107,8 +143,26 @@ export class ProfileSelectorDialogComponent {
           this.loading.set(false);
         },
         error: (err) => {
-          console.error('Registration failed', err);
-          this.error.set('Registration failed');
+          console.error('Host registration failed', err);
+          this.error.set('Host registration failed');
+          this.loading.set(false);
+        }
+      });
+    });
+
+    effect(() => {
+      const buyer = this.submittedBuyer();
+      if (!buyer) return;
+
+      this.authService.registerBuyer(buyer).subscribe({
+        next: (token) => {
+          this.authStore.login(token);
+          this.dialogRef.close();
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error('Buyer registration failed', err);
+          this.error.set('Buyer registration failed');
           this.loading.set(false);
         }
       });
@@ -116,17 +170,25 @@ export class ProfileSelectorDialogComponent {
   }
 
   submitHostForm() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
+    if (this.hostForm.invalid) {
+      this.hostForm.markAllAsTouched();
       return;
     }
 
     this.loading.set(true);
+    const host = this.hostForm.value as Host;
+    this.submittedHost.set(host);
+  }
 
-    if (this.form.invalid) return;
+  submitBuyerForm() {
+    if (this.buyerForm.invalid) {
+      this.buyerForm.markAllAsTouched();
+      return;
+    }
 
-    const host = this.form.value as Host;
-    this.submitted.set(host);
+    this.loading.set(true);
+    const buyer = this.buyerForm.value as Buyer;
+    this.submittedBuyer.set(buyer);
   }
 
   submitLoginForm() {
@@ -151,9 +213,7 @@ export class ProfileSelectorDialogComponent {
     });
   }
 
-
-
-  choose(mode: 'user' | 'host') {
+  choose(mode: 'buyer' | 'host') {
     this.step.set(mode);
   }
 
@@ -161,4 +221,3 @@ export class ProfileSelectorDialogComponent {
     this.dialogRef.close();
   }
 }
-

@@ -1,12 +1,15 @@
 import { Routes } from '@angular/router';
-import { EventDetailsComponent } from '../core/event/event-details/event-details.component';
-import { EventsComponent } from '../core/event/events/events.component';
 import { HostEventsComponent } from '../features/host/events/host-events.component';
-import { EventFormComponent } from '../core/event/event-form/event-form.component';
 import { HostDetailsComponent } from '../features/host/host-details/host-details.component';
+import { EventsComponent } from '../features/events/events/events.component';
+import { EventDetailsComponent } from '../features/events/event-details/event-details.component';
+import { EventFormComponent } from '../features/events/event-form/event-form.component';
 
 export const routes: Routes = [
-  { path: 'events', component: EventsComponent },
+  {
+    path: 'events',
+    component: EventsComponent
+  },
   {
     path: 'events/:id',
     component: EventDetailsComponent,
@@ -23,4 +26,6 @@ export const routes: Routes = [
     path: 'host/details/:id',
     component: HostDetailsComponent
   },
+  { path: '**', redirectTo: '' },
+
 ];
